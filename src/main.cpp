@@ -3997,6 +3997,11 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             LOCK(cs_main);
             State(pfrom->GetId())->fCurrentlyConnected = true;
         }
+
+        pfrom->vAddrToSend.clear();
+        vector<CAddress> vAddr = addrman.GetAddr();
+        BOOST_FOREACH(const CAddress &addr, vAddr)
+            pfrom->PushAddress(addr);
     }
 
 
